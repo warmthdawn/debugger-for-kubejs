@@ -1,4 +1,4 @@
-# Debugger for Zen
+# Debugger for KubeJS
 
 Adds debugger support for KubeJS
 
