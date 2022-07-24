@@ -1,7 +1,7 @@
 {
   "name": "debugger-for-kubejs",
   "displayName": "Debugger for KubeJS",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "warmthdawn",
   "description": "KubeJS debugger for Visual Studio Code",
   "author": {
