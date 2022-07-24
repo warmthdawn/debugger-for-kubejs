@@ -68,9 +68,6 @@
     "onDebugResolve:javascript",
     "onDebugDynamicConfigurations:javascript"
   ],
-  "workspaceTrust": {
-    "request": "never"
-  },
   "contributes": {
     "menus": {},
     "commands": [],

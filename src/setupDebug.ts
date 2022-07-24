@@ -31,6 +31,9 @@ export class KubeJSConfigurationProvider implements vscode.DebugConfigurationPro
 	 */
 	resolveDebugConfiguration(folder: WorkspaceFolder | undefined, config: DebugConfiguration, token?: CancellationToken): ProviderResult<DebugConfiguration> {
 
+		if(!folder) {
+			return Promise.reject("You must do this in a workspace!");
+		}
 		if (!config.type && !config.request && !config.name) {
 			const editor = vscode.window.activeTextEditor;
 			if (editor && editor.document.languageId === 'javascript') {
