@@ -1,0 +1,154 @@
+{
+  "name": "debugger-for-kubejs",
+  "displayName": "Debugger for KubeJS",
+  "version": "1.0.0",
+  "publisher": "warmthdawn",
+  "description": "KubeJS debugger for Visual Studio Code",
+  "author": {
+    "name": "WarmthDawn"
+  },
+  "license": "MIT",
+  "keywords": [
+    "multi-root ready"
+  ],
+  "engines": {
+    "vscode": "^1.66.0"
+  },
+  "icon": "images/kubejs_logo.png",
+  "categories": [
+    "Debuggers"
+  ],
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/warmthdawn/debugger-for-kubejs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/warmthdawn/debugger-for-kubejs/issues"
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --tsconfig=./tsconfig.json --external:vscode --format=cjs --platform=node --outfile=dist/extension.js",
+    "watch": "npm run -S esbuild-base -- --sourcemap --sources-content=false --watch",
+    "build": "npm run -S esbuild-base -- --sourcemap --sources-content=false",
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "publish-pre-release": "vsce publish --pre-release",
+    "vscode:prepublish": "rimraf dist && npm run -S esbuild-base -- --minify",
+    "test": "npm run typecheck"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^14.14.37",
+    "@types/vscode": "^1.66.0",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "@vscode/debugadapter": "^1.55.1",
+    "@vscode/debugadapter-testsupport": "^1.55.1",
+    "await-notify": "^1.0.1",
+    "base64-js": "^1.5.1",
+    "esbuild": "^0.14.29",
+    "eslint": "^8.12.0",
+    "events": "^3.3.0",
+    "glob": "^7.2.0",
+    "mocha": "^9.2.2",
+    "path-browserify": "^1.0.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.6.3",
+    "url": "^0.11.0",
+    "vsce": "^2.7.0"
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onDebugInitialConfigurations",
+    "onDebugResolve:javascript",
+    "onDebugDynamicConfigurations:javascript"
+  ],
+  "workspaceTrust": {
+    "request": "never"
+  },
+  "contributes": {
+    "menus": {},
+    "commands": [],
+    "breakpoints": [
+      {
+        "language": "javascript"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "kubejs",
+        "languages": [
+          "javascript"
+        ],
+        
+        "label": "KubeJS Scripts",
+        "configurationAttributes": {
+          "attach": {
+            "required": [
+              "hostName",
+              "port",
+              "timeout"
+            ],
+            "properties": {
+              "hostName": {
+                "type": "string",
+                "description": "The host name of your running game.",
+                "default": "localhost"
+              },
+              "port": {
+                "type": "number",
+                "description": "The port number of your running game.",
+                "default": 8000
+              },
+              "timeout": {
+                "type": "number",
+                "description": "The connection timeout.",
+                "default": 30000
+              }
+            }
+          }
+        },
+        "configurationSnippets": [
+          {
+            "label": "KubeJS: Attach Game",
+            "description": "Attaches a debugger to a running game",
+            "body": {
+              "type": "kubejs",
+              "request": "attach",
+              "name": "KubeJS Attach",
+              "hostName": "localhost",
+              "port": 8000,
+              "timeout": 30000
+            }
+          }
+        ],
+        "initialConfigurations": [
+          {
+            "type": "kubejs",
+            "request": "attach",
+            "name": "KubeJS Attach",
+            "hostName": "localhost",
+            "port": 8000,
+            "timeout": 30000
+          }
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "Debugger for KubeJS",
+      "id": "debugger-for-kubejs",
+      "properties": {
+        "kubejs.debug.java.home": {
+          "type": "string",
+          "default": "",
+          "description": "A custom JAVA_HOME for the debug adapter to use."
+        }
+      }
+    }
+  }
+}
